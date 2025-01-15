@@ -8,21 +8,24 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 content-start">
               <Lightgallery
                 :settings="{
-                  vimeoPlayerParams: {
-                    autoplay: true,
-                    controls: true,
-                  },
+                  vimeoPlayerParams: { autoplay: true, controls: true },
+                  plugins: [lgThumbnail, lgVideo],
+                  download: false,
+                  closeOnTap: true,
+                  controls: false,
+                  counter: false,
+                  escKey: true,
+                  mousewheel: false,
+                  videoMaxSize: [1920 - 1080],
+                  zoomFromOrigin: true,
+                  videojs: true,
                 }"
-                
+                :onInit="onInit"
                 v-for="(video, index) in videos"
                 :key="index"
-                :speed="500"
-                :plugins="[lgThumbnail, lgVideo]"
-                :videojs="true"
-                
               >
                 <a
-                  :data-lg-size="video.size"
+                  :data-lg-size="1280 - 720"
                   :data-src="video.src"
                   :data-poster="video.poster"
                   :data-sub-html="video.subHtml"
@@ -51,6 +54,7 @@ import 'lightgallery/css/lg-thumbnail.css'
 import 'lightgallery/css/lg-video.css'
 import 'video.js/dist/video-js.css'
 import videojs from 'video.js'
+import VimeoPlayer from '@vimeo/player'
 
 import VideoThumbnailComponent from './VideoThumbnailComponent.vue'
 
@@ -59,7 +63,8 @@ export default defineComponent({
   components: {
     Lightgallery,
     VideoThumbnailComponent,
-    videojs
+    videojs,
+    VimeoPlayer,
   },
 
   setup() {
@@ -109,7 +114,8 @@ export default defineComponent({
       videos,
       lgThumbnail,
       lgVideo,
-      videojs
+      videojs,
+      VimeoPlayer,
     }
   },
 })
