@@ -1,0 +1,116 @@
+---
+import '@styles/menu.css'
+import '@styles/nav.button.css'
+---
+
+<nav >
+
+  <div class="header-wrapper">
+
+  <div class="logo"> <a href="/">
+    <img src="../../public/images/logo.png" /> </a>
+
+  </div>
+
+  <div id="nav-button">
+    <span></span>
+    <span></span>
+  </div>
+
+  </div>
+
+ 
+
+  <div class="menu-overlay"></div>
+  <div class="menu-items-container">
+    <ul class="menu-list">
+      <li>
+        <div class="menu-item-mask">
+          <div class="menu-item-wrapper">
+            <a href="/" class="original-item">Home</a>
+            <a href="/" class="hover-item">Home</a>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="menu-item-mask">
+          <div class="menu-item-wrapper">
+            <a href="/films" class="original-item">Films</a>
+            <a href="/films" class="hover-item">Films</a>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="menu-item-mask">
+          <div class="menu-item-wrapper">
+            <a href="/contact" class="original-item">Contact</a>
+            <a href="/contact" class="hover-item">Contact</a>
+          </div>
+        </div>
+      </li>
+ 
+    </ul>
+  </div> 
+</nav>
+
+<script>
+  import { gsap } from 'gsap'
+
+  const menuItems = document.querySelectorAll('.menu-item-wrapper');
+
+  menuItems.forEach(item => {
+  const originalItem = item.querySelector('.original-item');
+  const hoverItem = item.querySelector('.hover-item');
+  
+  item.addEventListener('mouseenter', () => {
+    gsap.to(originalItem, { opacity: 0.2, duration: 0.2 });
+    gsap.to(hoverItem, { opacity: 1, duration: 0.2 });
+  });
+
+  item.addEventListener('mouseleave', () => {
+    gsap.to(hoverItem, { opacity: 0.2, duration: 0.2 });
+    gsap.to(originalItem, { opacity: 1, duration: 0.2 });
+  });
+});
+
+ 
+document.addEventListener('DOMContentLoaded', () => {
+  const navButton = document.getElementById('nav-button');
+  const menuList = document.querySelector('.menu-list');
+  const menuItems = document.querySelectorAll('.menu-list li a');
+  const menuOverlay = document.querySelector('.menu-overlay');
+
+  if (!navButton || !menuList || !menuOverlay) {
+    console.error('One or more required elements not found');
+    return;
+  }
+
+  let tl = gsap.timeline({ paused: true });
+
+  tl.to(menuItems, {
+    y: '0%',
+    opacity: 1,
+    duration: 0.2,
+    stagger: {
+      amount: 0.5,
+      from: "start",
+      ease: "power4.in"
+    },
+    ease: 'back.out(1.2)',
+  });
+
+  navButton.addEventListener('click', () => {
+    navButton.classList.toggle('open');
+    menuList.classList.toggle('active');
+    menuOverlay.classList.toggle('active');
+
+    if (menuList.classList.contains('active')) {
+      gsap.set(menuItems, { y: '100%', opacity: 0 });
+      tl.restart();
+    } else {
+      tl.reverse();
+    }
+  });
+});
+
+</script>

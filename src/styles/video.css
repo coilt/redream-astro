@@ -1,0 +1,54 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+}
+
+body {
+  position: fixed;
+  width: 100%;
+}
+
+
+.video-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh; 
+  overflow: hidden;
+}
+
+.fade-overlay {
+  position: absolute;
+  
+  left: 0;
+  right: 0;
+  height: 600px;  
+  background: linear-gradient(to bottom, #060606 0%, rgba(0,0,0,0) 100%);
+  pointer-events: none;  
+  z-index: 1;
+}
+
+
+.fade-overlay.top {
+  top: 0;
+  background: linear-gradient(to bottom, #060606 0%, rgba(0,0,0,0) 100%);
+}
+
+
+.fade-overlay.bottom {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+}
+
+
+
