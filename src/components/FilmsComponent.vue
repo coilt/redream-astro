@@ -8,17 +8,18 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 content-start">
               <Lightgallery
                 :settings="{
-                  plugins: plugins,
                   vimeoPlayerParams: {
                     autoplay: true,
                     controls: true,
                   },
                 }"
+                
                 v-for="(video, index) in videos"
                 :key="index"
                 :speed="500"
                 :plugins="[lgThumbnail, lgVideo]"
                 :videojs="true"
+                
               >
                 <a
                   :data-lg-size="video.size"
@@ -40,14 +41,11 @@
   </div>
 </template>
 
-<script lang="ts">
- import { Options, Vue } from 'vue-class-component';
+<script>
 import { defineComponent, ref } from 'vue'
 import Lightgallery from 'lightgallery/vue'
 import lgVideo from 'lightgallery/plugins/video'
 import lgThumbnail from 'lightgallery/plugins/thumbnail'
-import lgZoom from 'lightgallery/plugins/zoom';
-
 import 'lightgallery/css/lightgallery.css'
 import 'lightgallery/css/lg-thumbnail.css'
 import 'lightgallery/css/lg-video.css'
@@ -56,34 +54,12 @@ import videojs from 'video.js'
 
 import VideoThumbnailComponent from './VideoThumbnailComponent.vue'
 
-import styles from 'lightgallery/scss/lightgallery.scss';
-
-@Options({
-        components: {
-            Lightgallery,
-        },
-        data: () => ({
-            plugins: [lgThumbnail, lgZoom],
-        }),
-        methods: {
-            onInit: () => {
-                console.log('lightGallery has been initialized');
-            },
-            onBeforeSlide: () => {
-                console.log('calling before slide');
-            },
-        },
-    })
-
-
-
-
 export default defineComponent({
   name: 'FilmsComponent',
   components: {
     Lightgallery,
     VideoThumbnailComponent,
-    videojs,
+    videojs
   },
 
   setup() {
@@ -133,7 +109,7 @@ export default defineComponent({
       videos,
       lgThumbnail,
       lgVideo,
-      videojs,
+      videojs
     }
   },
 })
