@@ -1,11 +1,17 @@
+
 <template>
   <div>
     <div class="flex justify-center">
-      <div class="flex h-full overflow-auto w-11/12 justify-center">
-        <main class="pt-[20px]">
+      
+      <div class="flex h-full overflow-auto w-11/12 justify-center mt-40">
+        
+        <main class="overflow-hidden">
+          <h1
+        class="mt-8 text-4xl font-bold tracking-tight text-pretty text-red-devil-500 sm:text-5xl mb-8"
+      >Films</h1>
           <div class="flex flex-col items-center h-full">
             <div class="gradient-overlay"></div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 content-start">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 content-start ">
               <Lightgallery
                 :settings="{
                   vimeoPlayerParams: { autoplay: true, controls: true },
@@ -19,6 +25,7 @@
                   videoMaxSize: [1920 - 1080],
                   zoomFromOrigin: true,
                   videojs: true,
+                  pointer: true,
                 }"
                 :onInit="onInit"
                 v-for="(video, index) in videos"
@@ -47,14 +54,19 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import Lightgallery from 'lightgallery/vue'
-import lgVideo from 'lightgallery/plugins/video'
-import lgThumbnail from 'lightgallery/plugins/thumbnail'
 import 'lightgallery/css/lightgallery.css'
 import 'lightgallery/css/lg-thumbnail.css'
 import 'lightgallery/css/lg-video.css'
 import 'video.js/dist/video-js.css'
-import videojs from 'video.js'
-import VimeoPlayer from '@vimeo/player'
+import '@styles/films.css'
+
+import lgThumbnail from 'lightgallery/plugins/thumbnail'
+import lgVideo from 'lightgallery/plugins/video'
+
+
+import 'video.js/dist/video-js.css'
+ 
+ 
 
 import VideoThumbnailComponent from './VideoThumbnailComponent.vue'
 
@@ -63,8 +75,8 @@ export default defineComponent({
   components: {
     Lightgallery,
     VideoThumbnailComponent,
-    videojs,
-    VimeoPlayer,
+    
+     
   },
 
   setup() {
@@ -114,8 +126,8 @@ export default defineComponent({
       videos,
       lgThumbnail,
       lgVideo,
-      videojs,
-      VimeoPlayer,
+       
+       
     }
   },
 })

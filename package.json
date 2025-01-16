@@ -11,6 +11,9 @@
   "dependencies": {
     "@astrojs/tailwind": "^5.1.4",
     "@astrojs/vue": "^5.0.5",
+    "@fontsource/kanit": "^5.1.1",
+    "@heroicons/react": "^2.2.0",
+    "@heroicons/vue": "^2.2.0",
     "@vimeo/player": "^2.25.0",
     "astro": "^5.1.7",
     "gsap": "^3.12.5",

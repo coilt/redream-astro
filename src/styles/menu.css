@@ -10,7 +10,7 @@ a {
 }
 
 .header-wrapper {
-  position: relative;
+  position: fixed;
   height: 120px;
   width: 100%;
   max-width: 100%;

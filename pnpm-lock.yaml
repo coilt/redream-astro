@@ -14,6 +14,15 @@ importers:
       '@astrojs/vue':
         specifier: ^5.0.5
         version: 5.0.5(@types/node@22.10.6)(astro@5.1.7(@types/node@22.10.6)(jiti@1.21.7)(rollup@4.30.1)(sass-embedded@1.83.4)(typescript@5.7.3)(yaml@2.7.0))(jiti@1.21.7)(rollup@4.30.1)(sass-embedded@1.83.4)(vue@3.5.13(typescript@5.7.3))(yaml@2.7.0)
+      '@fontsource/kanit':
+        specifier: ^5.1.1
+        version: 5.1.1
+      '@heroicons/react':
+        specifier: ^2.2.0
+        version: 2.2.0(react@16.14.0)
+      '@heroicons/vue':
+        specifier: ^2.2.0
+        version: 2.2.0(vue@3.5.13(typescript@5.7.3))
       '@vimeo/player':
         specifier: ^2.25.0
         version: 2.25.0
@@ -408,6 +417,19 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@fontsource/kanit@5.1.1':
+    resolution: {integrity: sha512-jGhBsvq0b//lmPDb8UgvZhijr+QhNNahDi09tTaPjUrLSBgPzl59OIditoLFVmgk0lmW36cTGVAYD9akpGmxPQ==}
+
+  '@heroicons/react@2.2.0':
+    resolution: {integrity: sha512-LMcepvRaS9LYHJGsF0zzmgKCUim/X3N/DQKc4jepAXJ7l8QxJ1PmxJzqplF2Z3FE4PqBAIGyJAQ/w4B5dsqbtQ==}
+    peerDependencies:
+      react: '>= 16 || ^19.0.0-rc'
+
+  '@heroicons/vue@2.2.0':
+    resolution: {integrity: sha512-G3dbSxoeEKqbi/DFalhRxJU4mTXJn7GwZ7ae8NuEQzd1bqdd0jAbdaBZlHPcvPD2xI1iGzNVB4k20Un2AguYPw==}
+    peerDependencies:
+      vue: '>= 3'
 
   '@img/sharp-darwin-arm64@0.33.5':
     resolution: {integrity: sha512-UT4p+iz/2H4twwAoLCqfA9UH5pI6DggwKEGuaPy7nCVQ8ZsiY5PIcrRvD1DzuY3qYL07NtIQcWnBSY/heikIFQ==}
@@ -2993,6 +3015,16 @@ snapshots:
 
   '@esbuild/win32-x64@0.24.2':
     optional: true
+
+  '@fontsource/kanit@5.1.1': {}
+
+  '@heroicons/react@2.2.0(react@16.14.0)':
+    dependencies:
+      react: 16.14.0
+
+  '@heroicons/vue@2.2.0(vue@3.5.13(typescript@5.7.3))':
+    dependencies:
+      vue: 3.5.13(typescript@5.7.3)
 
   '@img/sharp-darwin-arm64@0.33.5':
     optionalDependencies:

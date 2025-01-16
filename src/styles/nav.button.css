@@ -16,11 +16,18 @@
   position: absolute;
   height: 0.16rem;
   width: 100%;
-  background: #81001b;
+  background-image: linear-gradient(to right, #ef0028 0%, #ff7eb3 100%);
+  box-shadow: 0 4px 15px 0 rgba(255, 0, 43, 0.75);
   border-radius: 2px;
   opacity: 1;
   left: 0;
 }
+
+
+ 
+
+
+
 
 #nav-button span:nth-child(1) {
   top: 1rem;
