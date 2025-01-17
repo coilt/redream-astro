@@ -1,16 +1,129 @@
-<div id="made-in-ny"></div>
+---
+import Plyr from "plyr";
+import 'plyr/dist/plyr.css';
 
-<script src="https://player.vimeo.com/api/player.js"></script>
+import VideoThumbnail from "../components/VideoThumbnail";
 
-<script define:vars={{ videoId: 76979871 }}>
+
+
+const videos = [
+  {
+    id: '180157095',
+    poster: '/images/thumbs/thumb-nightfall.webp',
+    title: 'NIGHTFALL',
+    thumb: '/videos/v-thumb-nightfall.webm'
+  },
+  {
+    id: '156413267',
+    poster: '/images/thumbs/thumb-alabama.webp',
+    title: 'Alabama Shakes — Gimme All Your Love',
+    thumb: '/videos/v-thumb-alabama.webm'
+    
+  }
+  // ... other videos
+];
+---
+
+ 
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://player.vimeo.com https://f.vimeocdn.com;">
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  {videos.map((video) => (
+    <div 
+      class="plyr__video-embed thumbnail-container" 
+      id={`player-${video.id}`}
+    >
+      <div class="thumbnail-overlay">
+        <img 
+          class="poster-image"
+          src={video.poster}
+          alt="Video Thumbnail"
+        />
+        <video 
+          class="hover-preview"
+          muted 
+          loop 
+          preload="auto"
+        >
+          <source src={video.thumb} type="video/webm" />
+        </video>
+      </div>
+      <iframe
+        src={`https://player.vimeo.com/video/${video.id}?loop=false&byline=false&portrait=false&title=false&speed=true&transparent=0&gesture=media`}
+        allow="autoplay; fullscreen"
+        allowtransparency
+      ></iframe>
+    </div>
+  ))}
+</div>
+
+<script>
+  import Plyr from "plyr";
+  import VideoThumbnail from '../components/VideoThumbnail';
+
+
   window.addEventListener('load', () => {
-    const options = {
-      id: videoId,
-      width: 640,
-      loop: true
-    };
+    document.querySelectorAll('.thumbnail-container').forEach(container => {
+      const img = container.querySelector('.poster-image');
+      const video = container.querySelector('.hover-preview');
+      const thumbnailOverlay = container.querySelector('.thumbnail-overlay');
+      
+      container.addEventListener('mouseenter', () => {
+        img.style.opacity = '0';
+        video.style.opacity = '1';
+        video.play().catch(() => {});  // Catch and ignore the abort error
+      });
+      
+      container.addEventListener('mouseleave', () => {
+        img.style.opacity = '1';
+        video.style.opacity = '0';
+        video.pause();
+        video.currentTime = 0;
+      });
 
-    const player = new Vimeo.Player('made-in-ny', options);
-    player.setVolume(0);
+      container.addEventListener('click', () => {
+        thumbnailOverlay.style.opacity = '0';
+      });
+
+      const player = new Plyr(`#${container.id}`, {
+        loadSprite: false,
+        controls: [],
+        clickToPlay: true,
+        hideControls: true,
+        autoplay: false
+      });
+    });
   });
 </script>
+
+
+
+<style>
+  .thumbnail-container {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .thumbnail-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transition: opacity 300ms;
+  }
+
+  .poster-image, .hover-preview {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 300ms;
+  }
+
+  .hover-preview {
+    opacity: 0;
+  }
+</style>
