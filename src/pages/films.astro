@@ -1,134 +1,140 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Plyr from "plyr";
-import 'plyr/dist/plyr.css';
+import "plyr/dist/plyr.css";
 
 import VideoThumbnail from "../components/VideoThumbnail";
 
-
-
 const videos = [
   {
-    id: '180157095',
-    poster: '/images/thumbs/thumb-nightfall.webp',
-    title: 'NIGHTFALL',
-    thumb: '/videos/v-thumb-nightfall.webm'
+    id: "180157095",
+    poster: "/images/thumbs/thumb-nightfall.webp",
+    title: "NIGHTFALL",
+    thumb: "/videos/v-thumb-nightfall.webm",
   },
   {
-    id: '156413267',
-    poster: '/images/thumbs/thumb-alabama.webp',
-    title: 'Alabama Shakes — Gimme All Your Love',
-    thumb: '/videos/v-thumb-alabama.webm'
-    
-  }
+    id: "156413267",
+    poster: "/images/thumbs/thumb-alabama.webp",
+    title: "Alabama Shakes — Gimme All Your Love",
+    thumb: "/videos/v-thumb-alabama.webm",
+  },
   // ... other videos
 ];
 ---
 
 <Layout>
- 
-<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://player.vimeo.com https://f.vimeocdn.com;">
+  <div class="flex justify-center w-full px-20">
+    <div class="flex w-full">
+      <main class="pt-[110px] w-full">
+         
+          <meta
+            http-equiv="Content-Security-Policy"
+            content="script-src 'self' 'unsafe-inline' https://player.vimeo.com https://f.vimeocdn.com;"
+          />
 
- 
-
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-  {videos.map((video) => (
-    <div 
-      class="plyr__video-embed thumbnail-container" 
-      id={`player-${video.id}`}
-    >
-      <div class="thumbnail-overlay">
-        <img 
-          class="poster-image"
-          src={video.poster}
-          alt="Video Thumbnail"
-        />
-        <video 
-          class="hover-preview"
-          muted 
-          loop 
-          preload="auto"
-        >
-          <source src={video.thumb} type="video/webm" />
-        </video>
-      </div>
-      <iframe
-        src={`https://player.vimeo.com/video/${video.id}?loop=false&byline=false&portrait=false&title=false&speed=true&transparent=0&gesture=media`}
-        allow="autoplay; fullscreen"
-        allowtransparency
-      ></iframe>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {videos.map((video) => (
+              <div class="rounded-xl overflow-hidden">
+                <div 
+                  class="plyr__video-embed thumbnail-container" 
+                  id={`player-${video.id}`}
+                >
+                  <div class="thumbnail-overlay">
+                    <img 
+                      class="poster-image"
+                      src={video.poster}
+                      alt="Video Thumbnail"
+                    />
+                    <video 
+                      class="hover-preview"
+                      muted 
+                      loop 
+                      preload="auto"
+                    >
+                      <source src={video.thumb} type="video/webm" />
+                    </video>
+                  </div>
+                  <iframe
+                    src={`https://player.vimeo.com/video/${video.id}?loop=false&byline=false&portrait=false&title=false&speed=true&transparent=0&gesture=media`}
+                    allow="autoplay; fullscreen"
+                    allowtransparency
+                  ></iframe>
+                </div>
+              </div>
+            ))}
+          </div>
+      </main>
     </div>
-  ))}
-</div>
-
+  </div>
 </Layout>
-
-
-
 
 <script>
   import Plyr from "plyr";
-  import VideoThumbnail from '../components/VideoThumbnail';
+  import VideoThumbnail from "../components/VideoThumbnail";
 
+  window.addEventListener("load", () => {
+    document.querySelectorAll(".thumbnail-container").forEach((container) => {
+      const img = container.querySelector(".poster-image");
+      const video = container.querySelector(".hover-preview");
+      const thumbnailOverlay = container.querySelector(".thumbnail-overlay");
 
-  window.addEventListener('load', () => {
-    document.querySelectorAll('.thumbnail-container').forEach(container => {
-      const img = container.querySelector('.poster-image');
-      const video = container.querySelector('.hover-preview');
-      const thumbnailOverlay = container.querySelector('.thumbnail-overlay');
-      
       const player = new Plyr(`#${container.id}`, {
         hideControls: false,
-        controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen']
+        controls: [
+          "play-large",
+          "play",
+          "progress",
+          "current-time",
+          "mute",
+          "volume",
+          "fullscreen",
+        ],
       });
 
       player.toggleControls(false);
 
-      player.on('play', () => {
+      player.on("play", () => {
         player.toggleControls(true);
       });
 
-      container.addEventListener('mouseenter', () => {
-        img.style.opacity = '0';
-        video.style.opacity = '1';
+      container.addEventListener("mouseenter", () => {
+        img.style.opacity = "0";
+        video.style.opacity = "1";
         video.play().catch(() => {});
       });
-      
-      container.addEventListener('mouseleave', () => {
-        img.style.opacity = '1';
-        video.style.opacity = '0';
+
+      container.addEventListener("mouseleave", () => {
+        img.style.opacity = "1";
+        video.style.opacity = "0";
         video.pause();
         video.currentTime = 0;
       });
 
-      container.addEventListener('click', () => {
-        thumbnailOverlay.style.opacity = '0';
+      container.addEventListener("click", () => {
+        thumbnailOverlay.style.opacity = "0";
         container.requestFullscreen();
       });
     });
   });
 </script>
 
-
-
 <style>
+  :root {
+    --plyr-color-main: #81001b;
+    --plyr-control-icon-size: 12px;
+    --plyr-control-radius: 2px;
+    --plyr-video-control-color: #81001b;
+    --plyr-video-control-color-hover: #060606;
+    --plyr-range-thumb-height: 8px;
+    --plyr-range-thumb-background: #81001b;
+    --plyr-range-track-height: 2px;
+    --plyr-range-fill-background: #490010;
+    --plyr-tooltip-background: #060606;
+    --plyr-font-family: "Kanit", sans-serif;
+  }
 
- 
-:root {
-  --plyr-color-main: #81001b;
-  --plyr-control-icon-size: 12px;
-  --plyr-control-radius: 2px;
-  --plyr-video-control-color: #81001b;
-  --plyr-video-control-color-hover: #060606;
-  --plyr-range-thumb-height: 8px;
-  --plyr-range-thumb-background: #81001b;
-  --plyr-range-track-height: 2px;
-  --plyr-range-fill-background: #490010;
-  --plyr-tooltip-background: #060606;
-  --plyr-font-family: 'Kanit', sans-serif;
-   
-}
-   .thumbnail-container {
+  
+  .thumbnail-container {
     position: relative;
     border-radius: 10px;
     overflow: hidden;
@@ -144,7 +150,8 @@ const videos = [
     transition: opacity 300ms;
   }
 
-  .poster-image, .hover-preview {
+  .poster-image,
+  .hover-preview {
     position: absolute;
     width: 100%;
     height: 100%;
