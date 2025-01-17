@@ -1,8 +1,7 @@
 #nav-button {
   width: 1.5rem;
-  height: 2.5rem;
+  height: 2.0rem;
   position: relative;
- 
   cursor: pointer;
   transition: 0.3s ease-in-out;
   z-index: 1000;
@@ -21,6 +20,7 @@
   border-radius: 2px;
   opacity: 1;
   left: 0;
+  top: 20;
 }
 
 
