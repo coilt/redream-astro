@@ -1,4 +1,5 @@
 ---
+import Layout from "../layouts/Layout.astro";
 import Plyr from "plyr";
 import 'plyr/dist/plyr.css';
 
@@ -24,8 +25,11 @@ const videos = [
 ];
 ---
 
+<Layout>
  
 <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://player.vimeo.com https://f.vimeocdn.com;">
+
+ 
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
   {videos.map((video) => (
@@ -57,6 +61,11 @@ const videos = [
   ))}
 </div>
 
+</Layout>
+
+
+
+
 <script>
   import Plyr from "plyr";
   import VideoThumbnail from '../components/VideoThumbnail';
@@ -68,10 +77,21 @@ const videos = [
       const video = container.querySelector('.hover-preview');
       const thumbnailOverlay = container.querySelector('.thumbnail-overlay');
       
+      const player = new Plyr(`#${container.id}`, {
+        hideControls: false,
+        controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen']
+      });
+
+      player.toggleControls(false);
+
+      player.on('play', () => {
+        player.toggleControls(true);
+      });
+
       container.addEventListener('mouseenter', () => {
         img.style.opacity = '0';
         video.style.opacity = '1';
-        video.play().catch(() => {});  // Catch and ignore the abort error
+        video.play().catch(() => {});
       });
       
       container.addEventListener('mouseleave', () => {
@@ -83,14 +103,7 @@ const videos = [
 
       container.addEventListener('click', () => {
         thumbnailOverlay.style.opacity = '0';
-      });
-
-      const player = new Plyr(`#${container.id}`, {
-        loadSprite: false,
-        controls: [],
-        clickToPlay: true,
-        hideControls: true,
-        autoplay: false
+        container.requestFullscreen();
       });
     });
   });
@@ -99,6 +112,16 @@ const videos = [
 
 
 <style>
+
+ 
+ 
+.plyr__control--overlaid {
+  color: red;
+}
+
+
+
+
   .thumbnail-container {
     position: relative;
     border-radius: 10px;
