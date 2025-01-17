@@ -9,13 +9,17 @@ import '@fontsource/kanit/500.css';
 import '@fontsource/kanit/600.css';
 import '@fontsource/kanit/700.css';
 import '@fontsource/kanit/800.css';
-
+import Plyr from "plyr";
+import 'plyr/dist/plyr.css';
 ---
 
 
 <!doctype html>
 <html lang="en">
 	<head>
+		<script is:inline>
+			window.Plyr = Plyr;
+		</script>
 		<script defer src="https://umami.substorm.cc/script.js" data-website-id="e4739b60-968f-4dc3-8482-a41f84bb8b25"></script>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />

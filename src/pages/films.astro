@@ -1,12 +1,16 @@
----
- 
-import Layout from '../layouts/Layout.astro';
-import FilmsComponent from '../components/FilmsComponent.vue'
+<div id="made-in-ny"></div>
 
+<script src="https://player.vimeo.com/api/player.js"></script>
 
----
+<script define:vars={{ videoId: 76979871 }}>
+  window.addEventListener('load', () => {
+    const options = {
+      id: videoId,
+      width: 640,
+      loop: true
+    };
 
-
-<Layout title="Films">
- <FilmsComponent client:load/>
-</Layout>
+    const player = new Vimeo.Player('made-in-ny', options);
+    player.setVolume(0);
+  });
+</script>

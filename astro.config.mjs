@@ -1,20 +1,23 @@
-// @ts-check
-import { defineConfig } from 'astro/config'
+import { defineConfig } from "astro/config";
+import tailwind from "@astrojs/tailwind";
 
-
-
-import tailwind from '@astrojs/tailwind'
-
-import vue from '@astrojs/vue';
-
-// https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), vue()], 
+  integrations: [tailwind()],
   vite: {
+    build: {
+      rollupOptions: {
+        external: ["plyr"],
+        output: {
+          globals: {
+            plyr: "Plyr",
+          },
+        },
+      },
+    },
     resolve: {
       alias: {
-        '@styles': '/src/styles'
-      }
-    }
-  }
-})
+        "@styles": "/src/styles",
+      },
+    },
+  },
+});
