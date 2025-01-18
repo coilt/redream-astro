@@ -1,7 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Plyr from "plyr";
-import "plyr/dist/plyr.css";
+import "@styles/plyr.css";
 
 const videos = [
   {
@@ -77,140 +76,133 @@ const videos = [
 </Layout>
 
 <script>
-  import Plyr from "plyr";
- 
+  // Load Plyr script
+  const plyrScript = document.createElement("script");
+  plyrScript.src = "/scripts/plyr.js";
+  document.head.appendChild(plyrScript);
 
-  if (typeof document !== "undefined") {
-    document.querySelectorAll(".thumbnail-container").forEach((container) => {
-      const img = container.querySelector(".poster-image") as HTMLImageElement;
-      const video = container.querySelector(
-        ".hover-preview",
-      ) as HTMLVideoElement;
-      const thumbnailOverlay = container.querySelector(
-        ".thumbnail-overlay",
-      ) as HTMLDivElement;
-      let hasPlayedOnce = false;
+  plyrScript.onload = () => {
+    if (typeof document !== "undefined") {
+      document.querySelectorAll(".thumbnail-container").forEach((container) => {
+        const img = container.querySelector(
+          ".poster-image",
+        ) as HTMLImageElement;
+        const video = container.querySelector(
+          ".hover-preview",
+        ) as HTMLVideoElement;
+        const thumbnailOverlay = container.querySelector(
+          ".thumbnail-overlay",
+        ) as HTMLDivElement;
+        let hasPlayedOnce = false;
 
-     
-      
-      const player = new Plyr(`#${container.id}`, {
-  hideControls: true,
-  controls: [
-    "play",
-    "progress",
-    "current-time",
-    "mute",
-    "volume",
-    "fullscreen",
-     "title"
-  ],
-  
+        const player = new window.Plyr(`#${container.id}`, {
+          hideControls: true,
+          controls: [
+            "play",
+            "progress",
+            "current-time",
+            "mute",
+            "volume",
+            "fullscreen",
+            "title",
+          ],
+        });
 
-});
+        let isPlaying = false;
 
-let isPlaying = false;
+        player.on("ready", () => {
+          player.toggleControls(false);
+        });
 
-player.on("ready", () => {
-  player.toggleControls(false);
-});
-
-player.on("play", () => {
-  isPlaying = true;
-  hasPlayedOnce = true;
-  if (!document.fullscreenElement) {
-    container.requestFullscreen();
-  }
-  thumbnailOverlay.style.opacity = "0";
-});
-
-player.on("enterfullscreen", () => {
-  player.toggleControls(true);
-});
-
-player.on("exitfullscreen", () => {
-  if (isPlaying) {
-    player.toggleControls(true);
-  } else {
-    player.toggleControls(false);
-  }
-});
-
-// Keep controls hidden for unplayed videos
-player.on("controlsshown", () => {
-  if (!isPlaying && !document.fullscreenElement) {
-    player.toggleControls(false);
-  }
-});
-
-
-
-
-
-
-
-
-      container.addEventListener(
-        "mouseenter",
-        () => {
-          // Only enable hover preview on non-touch devices
-          if (!hasPlayedOnce && !window.matchMedia("(hover: none)").matches) {
-            img.style.opacity = "0";
-            video.style.opacity = "1";
-            video.play().catch(() => {});
-          }
-        },
-        { passive: true },
-      );
-
-      container.addEventListener(
-        "mouseleave",
-        () => {
-          if (!hasPlayedOnce && !window.matchMedia("(hover: none)").matches) {
-            img.style.opacity = "1";
-            video.style.opacity = "0";
-            video.pause();
-            video.currentTime = 0;
-          }
-        },
-        { passive: true },
-      );
-
-      container.addEventListener(
-        "click",
-        () => {
-          if (!hasPlayedOnce) {
-            thumbnailOverlay.style.opacity = "0";
+        player.on("play", () => {
+          isPlaying = true;
+          hasPlayedOnce = true;
+          if (!document.fullscreenElement) {
             container.requestFullscreen();
           }
+          thumbnailOverlay.style.opacity = "0";
+        });
+
+        player.on("enterfullscreen", () => {
+          player.toggleControls(true);
+        });
+
+        player.on("exitfullscreen", () => {
+          if (isPlaying) {
+            player.toggleControls(true);
+          } else {
+            player.toggleControls(false);
+          }
+        });
+
+        // Keep controls hidden for unplayed videos
+        player.on("controlsshown", () => {
+          if (!isPlaying && !document.fullscreenElement) {
+            player.toggleControls(false);
+          }
+        });
+
+        container.addEventListener(
+          "mouseenter",
+          () => {
+            // Only enable hover preview on non-touch devices
+            if (!hasPlayedOnce && !window.matchMedia("(hover: none)").matches) {
+              img.style.opacity = "0";
+              video.style.opacity = "1";
+              video.play().catch(() => {});
+            }
+          },
+          { passive: true },
+        );
+
+        container.addEventListener(
+          "mouseleave",
+          () => {
+            if (!hasPlayedOnce && !window.matchMedia("(hover: none)").matches) {
+              img.style.opacity = "1";
+              video.style.opacity = "0";
+              video.pause();
+              video.currentTime = 0;
+            }
+          },
+          { passive: true },
+        );
+
+        container.addEventListener(
+          "click",
+          () => {
+            if (!hasPlayedOnce) {
+              thumbnailOverlay.style.opacity = "0";
+              container.requestFullscreen();
+            }
+          },
+          { passive: true },
+        );
+      });
+    }
+  };
+
+  if (typeof document !== "undefined") {
+    const container = document.querySelector(".plyr-container");
+    if (container) {
+      let controlsVisible = false;
+
+      container.addEventListener(
+        "touchstart",
+        () => {
+          const controls = container.querySelectorAll(
+            ".plyr__controls, .custom-fs-exit",
+          ) as NodeListOf<HTMLElement>;
+
+          controls.forEach((control) => {
+            control.style.opacity = controlsVisible ? "0" : "1";
+          });
+          controlsVisible = !controlsVisible;
         },
         { passive: true },
       );
-    });
-  }
-
-  if (typeof document !== 'undefined') {
-    const container = document.querySelector('.plyr-container');
-    if (container) {
-        let controlsVisible = false;
-
-        container.addEventListener(
-            "touchstart",
-            () => {
-                const controls = container.querySelectorAll(
-                    ".plyr__controls, .custom-fs-exit"
-                ) as NodeListOf<HTMLElement>;
-                
-                controls.forEach((control) => {
-                    control.style.opacity = controlsVisible ? "0" : "1";
-                });
-                controlsVisible = !controlsVisible;
-            },
-            { passive: true }
-        );
     }
-}
-
-
+  }
 </script>
 
 <style>
@@ -279,10 +271,4 @@ player.on("controlsshown", () => {
   .hover-preview {
     opacity: 0;
   }
-
-
-
- 
-
-
 </style>
