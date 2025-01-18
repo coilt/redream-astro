@@ -31,7 +31,7 @@ const videos = [
 ---
 
 <Layout>
-  <div class="flex justify-center w-full px-20 min-w-">
+  <div class="flex justify-center w-full px-4 md:px-20">
     <div class="flex w-full">
       <main class="pt-[110px] w-full">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -114,16 +114,17 @@ const videos = [
           player.toggleControls(false);
         });
 
-        // Inside your existing player configuration
         player.on("ready", () => {
           if ("ontouchstart" in window) {
             container.addEventListener(
               "touchstart",
               () => {
                 if (!hasPlayedOnce) {
-                  player.play();
-                  container.requestFullscreen();
                   thumbnailOverlay.style.opacity = "0";
+                  player.play();
+                  container.requestFullscreen().catch(() => {
+                    // Continue if fullscreen fails
+                  });
                 }
               },
               { passive: true },
@@ -132,14 +133,14 @@ const videos = [
         });
 
         player.on("play", () => {
-  isPlaying = true;
-  hasPlayedOnce = true;
-  thumbnailOverlay.style.opacity = "0";
-  thumbnailOverlay.style.display = "none"; // Force hide the overlay
-  if (!document.fullscreenElement) {
-    container.requestFullscreen();
-  }
-});
+          isPlaying = true;
+          hasPlayedOnce = true;
+          thumbnailOverlay.style.opacity = "0";
+          thumbnailOverlay.style.display = "none"; // Force hide the overlay
+          if (!document.fullscreenElement) {
+            container.requestFullscreen();
+          }
+        });
 
         player.on("enterfullscreen", () => {
           player.toggleControls(true);
