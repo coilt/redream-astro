@@ -78,7 +78,7 @@ const videos = [
 
 <script>
   import Plyr from "plyr";
-  import VideoThumbnail from "../components/VideoThumbnail";
+ 
 
   if (typeof document !== "undefined") {
     document.querySelectorAll(".thumbnail-container").forEach((container) => {
@@ -188,25 +188,29 @@ player.on("controlsshown", () => {
     });
   }
 
-  // Add touch event handling
-  if (typeof document !== "undefined") {
-    const container = document.querySelector(".plyr-container");
-    let controlsVisible = false;
+  if (typeof document !== 'undefined') {
+    const container = document.querySelector('.plyr-container');
+    if (container) {
+        let controlsVisible = false;
 
-    container.addEventListener(
-      "touchstart",
-      () => {
-        const controls = container.querySelectorAll(
-          ".plyr__controls, .custom-fs-exit",
+        container.addEventListener(
+            "touchstart",
+            () => {
+                const controls = container.querySelectorAll(
+                    ".plyr__controls, .custom-fs-exit"
+                ) as NodeListOf<HTMLElement>;
+                
+                controls.forEach((control) => {
+                    control.style.opacity = controlsVisible ? "0" : "1";
+                });
+                controlsVisible = !controlsVisible;
+            },
+            { passive: true }
         );
-        controls.forEach((control) => {
-          control.style.opacity = controlsVisible ? "0" : "1";
-        });
-        controlsVisible = !controlsVisible;
-      },
-      { passive: true },
-    );
-  }
+    }
+}
+
+
 </script>
 
 <style>
@@ -275,4 +279,10 @@ player.on("controlsshown", () => {
   .hover-preview {
     opacity: 0;
   }
+
+
+
+ 
+
+
 </style>
