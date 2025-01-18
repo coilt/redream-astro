@@ -1,55 +1,51 @@
 ---
-import Menu from "../components/Menu.astro"
+import Menu from "../components/Menu.astro";
 import Footer from "../components/Footer.astro";
-import '@fontsource/kanit/100.css';
-import '@fontsource/kanit/200.css';
-import '@fontsource/kanit/300.css';
-import '@fontsource/kanit/400.css';
-import '@fontsource/kanit/500.css';
-import '@fontsource/kanit/600.css';
-import '@fontsource/kanit/700.css';
-import '@fontsource/kanit/800.css';
+import "@fontsource/kanit/100.css";
+import "@fontsource/kanit/200.css";
+import "@fontsource/kanit/300.css";
+import "@fontsource/kanit/400.css";
+import "@fontsource/kanit/500.css";
+import "@fontsource/kanit/600.css";
+import "@fontsource/kanit/700.css";
+import "@fontsource/kanit/800.css";
 import Plyr from "plyr";
-import 'plyr/dist/plyr.css';
+import "plyr/dist/plyr.css";
 ---
 
-
 <!doctype html>
-<html lang="en">
-	<head>
-		<script is:inline>
-			window.Plyr = Plyr;
-		</script>
-		<script defer src="https://umami.substorm.cc/script.js" data-website-id="e4739b60-968f-4dc3-8482-a41f84bb8b25"></script>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Redream Films</title>
+<html lang="en" class="min-w-[320px]">
+  <head>
+    <script
+      defer
+      src="https://umami.substorm.cc/script.js"
+      data-website-id="e4739b60-968f-4dc3-8482-a41f84bb8b25"></script>
+
+    <meta
+      charset="UTF-8"
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline' https://player.vimeo.com https://f.vimeocdn.com;"
+    />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Redream Films</title>
 
     <style is:global>
-			html,
-			body {
-				margin: 0;
-				width: 100%;
-				height: 100%;
-				background-color: rgb(6, 6, 6);
-			}
-		</style>
-	</head>
-	<body>
-		<Menu />
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(6, 6, 6);
+      }
+    </style>
+  </head>
+  <body class="min-w-[320px]">
+    <Menu />
 
-		<slot />
+    <slot />
 
-
-
-
-
-<Footer />
-	</body>
+    <Footer />
+  </body>
 </html>
-
-
-
-

@@ -3,8 +3,6 @@ import Layout from "../layouts/Layout.astro";
 import Plyr from "plyr";
 import "plyr/dist/plyr.css";
 
-import VideoThumbnail from "../components/VideoThumbnail";
-
 const videos = [
   {
     id: "180157095",
@@ -18,39 +16,47 @@ const videos = [
     title: "Alabama Shakes — Gimme All Your Love",
     thumb: "/videos/v-thumb-alabama.webm",
   },
-  // ... other videos
+  {
+    id: "129055751",
+    poster: "/images/thumbs/thumb-cgs.webp",
+    title: "CGS",
+    thumb: "/videos/v-thumb-cgs.webm",
+  },
+  {
+    id: "150533258",
+    poster: "/images/thumbs/thumb-woowooki.webp",
+    title: "WOOWOOKI",
+    thumb: "/videos/v-thumb-woowooki.webm",
+  },
 ];
 ---
 
 <Layout>
-  <div class="flex justify-center w-full px-20">
+  <div class="flex justify-center w-full px-20 min-w-">
     <div class="flex w-full">
       <main class="pt-[110px] w-full">
-         
-          <meta
-            http-equiv="Content-Security-Policy"
-            content="script-src 'self' 'unsafe-inline' https://player.vimeo.com https://f.vimeocdn.com;"
-          />
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {videos.map((video) => (
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {
+            videos.map((video) => (
               <div class="rounded-xl overflow-hidden">
-                <div 
-                  class="plyr__video-embed thumbnail-container" 
+                <div
+                  class="plyr__video-embed thumbnail-container"
                   id={`player-${video.id}`}
                 >
+                  {/* <div
+                    class="custom-fs-exit"
+                    onclick="document.exitFullscreen()"
+                  >
+                    ✕
+                  </div> */}
+
                   <div class="thumbnail-overlay">
-                    <img 
+                    <img
                       class="poster-image"
                       src={video.poster}
                       alt="Video Thumbnail"
                     />
-                    <video 
-                      class="hover-preview"
-                      muted 
-                      loop 
-                      preload="auto"
-                    >
+                    <video class="hover-preview" muted loop preload="auto">
                       <source src={video.thumb} type="video/webm" />
                     </video>
                   </div>
@@ -58,11 +64,13 @@ const videos = [
                     src={`https://player.vimeo.com/video/${video.id}?loop=false&byline=false&portrait=false&title=false&speed=true&transparent=0&gesture=media`}
                     allow="autoplay; fullscreen"
                     allowtransparency
-                  ></iframe>
+                    data-plyr-title={video.title}
+                  />
                 </div>
               </div>
-            ))}
-          </div>
+            ))
+          }
+        </div>
       </main>
     </div>
   </div>
@@ -72,50 +80,133 @@ const videos = [
   import Plyr from "plyr";
   import VideoThumbnail from "../components/VideoThumbnail";
 
-  window.addEventListener("load", () => {
+  if (typeof document !== "undefined") {
     document.querySelectorAll(".thumbnail-container").forEach((container) => {
-      const img = container.querySelector(".poster-image");
-      const video = container.querySelector(".hover-preview");
-      const thumbnailOverlay = container.querySelector(".thumbnail-overlay");
+      const img = container.querySelector(".poster-image") as HTMLImageElement;
+      const video = container.querySelector(
+        ".hover-preview",
+      ) as HTMLVideoElement;
+      const thumbnailOverlay = container.querySelector(
+        ".thumbnail-overlay",
+      ) as HTMLDivElement;
+      let hasPlayedOnce = false;
 
+     
+      
       const player = new Plyr(`#${container.id}`, {
-        hideControls: false,
-        controls: [
-          "play-large",
-          "play",
-          "progress",
-          "current-time",
-          "mute",
-          "volume",
-          "fullscreen",
-        ],
-      });
+  hideControls: true,
+  controls: [
+    "play",
+    "progress",
+    "current-time",
+    "mute",
+    "volume",
+    "fullscreen",
+     "title"
+  ],
+  
 
-      player.toggleControls(false);
+});
 
-      player.on("play", () => {
-        player.toggleControls(true);
-      });
+let isPlaying = false;
 
-      container.addEventListener("mouseenter", () => {
-        img.style.opacity = "0";
-        video.style.opacity = "1";
-        video.play().catch(() => {});
-      });
+player.on("ready", () => {
+  player.toggleControls(false);
+});
 
-      container.addEventListener("mouseleave", () => {
-        img.style.opacity = "1";
-        video.style.opacity = "0";
-        video.pause();
-        video.currentTime = 0;
-      });
+player.on("play", () => {
+  isPlaying = true;
+  hasPlayedOnce = true;
+  if (!document.fullscreenElement) {
+    container.requestFullscreen();
+  }
+  thumbnailOverlay.style.opacity = "0";
+});
 
-      container.addEventListener("click", () => {
-        thumbnailOverlay.style.opacity = "0";
-        container.requestFullscreen();
-      });
+player.on("enterfullscreen", () => {
+  player.toggleControls(true);
+});
+
+player.on("exitfullscreen", () => {
+  if (isPlaying) {
+    player.toggleControls(true);
+  } else {
+    player.toggleControls(false);
+  }
+});
+
+// Keep controls hidden for unplayed videos
+player.on("controlsshown", () => {
+  if (!isPlaying && !document.fullscreenElement) {
+    player.toggleControls(false);
+  }
+});
+
+
+
+
+
+
+
+
+      container.addEventListener(
+        "mouseenter",
+        () => {
+          // Only enable hover preview on non-touch devices
+          if (!hasPlayedOnce && !window.matchMedia("(hover: none)").matches) {
+            img.style.opacity = "0";
+            video.style.opacity = "1";
+            video.play().catch(() => {});
+          }
+        },
+        { passive: true },
+      );
+
+      container.addEventListener(
+        "mouseleave",
+        () => {
+          if (!hasPlayedOnce && !window.matchMedia("(hover: none)").matches) {
+            img.style.opacity = "1";
+            video.style.opacity = "0";
+            video.pause();
+            video.currentTime = 0;
+          }
+        },
+        { passive: true },
+      );
+
+      container.addEventListener(
+        "click",
+        () => {
+          if (!hasPlayedOnce) {
+            thumbnailOverlay.style.opacity = "0";
+            container.requestFullscreen();
+          }
+        },
+        { passive: true },
+      );
     });
-  });
+  }
+
+  // Add touch event handling
+  if (typeof document !== "undefined") {
+    const container = document.querySelector(".plyr-container");
+    let controlsVisible = false;
+
+    container.addEventListener(
+      "touchstart",
+      () => {
+        const controls = container.querySelectorAll(
+          ".plyr__controls, .custom-fs-exit",
+        );
+        controls.forEach((control) => {
+          control.style.opacity = controlsVisible ? "0" : "1";
+        });
+        controlsVisible = !controlsVisible;
+      },
+      { passive: true },
+    );
+  }
 </script>
 
 <style>
@@ -133,7 +224,29 @@ const videos = [
     --plyr-font-family: "Kanit", sans-serif;
   }
 
-  
+  .custom-fs-exit {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    cursor: pointer;
+    color: #490010;
+    font-size: 24px;
+    padding: 10px;
+    opacity: 1;
+    transition: opacity 0.3s;
+  }
+
+  :fullscreen .custom-fs-exit {
+    display: block;
+  }
+
+  :fullscreen .plyr-container:not(:hover) .custom-fs-exit,
+  :fullscreen .plyr-container:not(:hover) .plyr__controls {
+    opacity: 0;
+  }
+
   .thumbnail-container {
     position: relative;
     border-radius: 10px;
