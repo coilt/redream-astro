@@ -15,6 +15,7 @@
     "@vimeo/player": "^2.25.0",
     "astro": "^5.1.7",
     "astro-lenis": "^1.0.0",
+    "astro-tunnel": "^0.1.6",
     "gsap": "^3.12.5",
     "lenis": "^1.1.19",
     "media-icons": "^1.1.5",

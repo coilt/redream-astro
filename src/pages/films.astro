@@ -114,14 +114,32 @@ const videos = [
           player.toggleControls(false);
         });
 
-        player.on("play", () => {
-          isPlaying = true;
-          hasPlayedOnce = true;
-          if (!document.fullscreenElement) {
-            container.requestFullscreen();
+        // Inside your existing player configuration
+        player.on("ready", () => {
+          if ("ontouchstart" in window) {
+            container.addEventListener(
+              "touchstart",
+              () => {
+                if (!hasPlayedOnce) {
+                  player.play();
+                  container.requestFullscreen();
+                  thumbnailOverlay.style.opacity = "0";
+                }
+              },
+              { passive: true },
+            );
           }
-          thumbnailOverlay.style.opacity = "0";
         });
+
+        player.on("play", () => {
+  isPlaying = true;
+  hasPlayedOnce = true;
+  thumbnailOverlay.style.opacity = "0";
+  thumbnailOverlay.style.display = "none"; // Force hide the overlay
+  if (!document.fullscreenElement) {
+    container.requestFullscreen();
+  }
+});
 
         player.on("enterfullscreen", () => {
           player.toggleControls(true);
