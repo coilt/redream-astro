@@ -1,5 +1,17 @@
- 
 a {
+  color: #81001b;
+  font-family: "Kanit";
+  text-decoration: none;
+}
+
+a.original-item {
+  color: #81001b;
+  font-family: "Kanit";
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a.hover-item {
   color: #81001b;
   font-family: "Kanit";
   text-decoration: none;
@@ -16,7 +28,6 @@ a {
   z-index: 100;
   justify-content: space-between;
   align-items: center;
-  
 }
 
 .menu-list {
@@ -71,6 +82,11 @@ a {
   font-weight: 800;
 }
 
+
+
+
+
+
 .hover-item {
   transform: rotateX(-90deg);
   transform-origin: bottom center;
@@ -98,12 +114,11 @@ a {
   margin-left: 2rem;
   margin-bottom: 0rem;
 }
+ 
 
 
-
-@media (min-width: 768px) {
+@media (min-width: 1100px) {
   .original-item {
-    transform: rotateX(0deg) translateZ(calc(4vh + 1rem));
+    transform: rotateX(0deg) translateZ(calc(5vh + 2rem));
   }
 }
-
