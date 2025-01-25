@@ -5,24 +5,35 @@ import "@styles/plyr.css";
 const videos = [
   {
     id: "180157095",
+    type: "vimeo",
     poster: "/images/thumbs/thumb-nightfall.webp",
     title: "NIGHTFALL",
     thumb: "/videos/v-thumb-nightfall.webm",
   },
   {
     id: "156413267",
+    type: "vimeo",
     poster: "/images/thumbs/thumb-alabama.webp",
     title: "Alabama Shakes — Gimme All Your Love",
     thumb: "/videos/v-thumb-alabama.webm",
   },
   {
+    id: "v573oQLKV38",
+    type: "youtube",
+    poster: "/images/thumbs/thumb-boxer.jpg",
+    title: "YouTube Example",
+    thumb: "/videos/v-thumb-boxer.webm",
+  },
+  {
     id: "129055751",
+    type: "vimeo",
     poster: "/images/thumbs/thumb-cgs.webp",
     title: "CGS",
     thumb: "/videos/v-thumb-cgs.webm",
   },
   {
     id: "150533258",
+    type: "vimeo",
     poster: "/images/thumbs/thumb-woowooki.webp",
     title: "WOOWOOKI",
     thumb: "/videos/v-thumb-woowooki.webm",
@@ -42,13 +53,6 @@ const videos = [
                   class="plyr__video-embed thumbnail-container"
                   id={`player-${video.id}`}
                 >
-                  {/* <div
-                    class="custom-fs-exit"
-                    onclick="document.exitFullscreen()"
-                  >
-                    ✕
-                  </div> */}
-
                   <div class="thumbnail-overlay">
                     <img
                       class="poster-image"
@@ -59,12 +63,19 @@ const videos = [
                       <source src={video.thumb} type="video/webm" />
                     </video>
                   </div>
-                  <iframe
-                    src={`https://player.vimeo.com/video/${video.id}?loop=false&byline=false&portrait=false&title=false&speed=true&transparent=0&gesture=media`}
-                    allow="autoplay; fullscreen"
-                    allowtransparency
-                    data-plyr-title={video.title}
-                  />
+                  {video.type === "youtube" ? (
+                    <iframe
+                      src={`https://www.youtube.com/embed/${video.id}?origin=*&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1`}
+                      allowfullscreen
+                      allow="autoplay; fullscreen"
+                    />
+                  ) : (
+                    <iframe
+                      src={`https://player.vimeo.com/video/${video.id}?loop=false&byline=false&portrait=false&title=false&speed=true&transparent=0&gesture=media`}
+                      allow="autoplay; fullscreen"
+                      allowtransparency
+                    />
+                  )}
                 </div>
               </div>
             ))
@@ -80,6 +91,7 @@ const videos = [
   const plyrScript = document.createElement("script");
   plyrScript.src = "/scripts/plyr.js";
   document.head.appendChild(plyrScript);
+  const isMobile = "ontouchstart" in window;
 
   plyrScript.onload = () => {
     if (typeof document !== "undefined") {
@@ -115,6 +127,13 @@ const videos = [
         });
 
         player.on("ready", () => {
+          player.toggleControls(false);
+
+          // Add YouTube poster handling
+          if (container.querySelector("iframe")?.src.includes("youtube")) {
+            player.poster = img.src;
+          }
+
           if ("ontouchstart" in window) {
             container.addEventListener(
               "touchstart",
