@@ -3,6 +3,7 @@ a {
   color: #81001b;
   font-family: "Kanit";
   text-decoration: none;
+  text-transform: uppercase;
 }
 
 .header-wrapper {
@@ -68,14 +69,11 @@ a {
   top: 0;
   left: 0;
   font-weight: 800;
-
-  /* border: 1px solid red; */
 }
 
 .hover-item {
   transform: rotateX(-90deg);
   transform-origin: bottom center;
-  /* border: 1px solid rgb(12, 45, 255); */
   font-weight: 200;
 }
 
@@ -100,3 +98,12 @@ a {
   margin-left: 2rem;
   margin-bottom: 0rem;
 }
+
+
+
+@media (min-width: 768px) {
+  .original-item {
+    transform: rotateX(0deg) translateZ(calc(4vh + 1rem));
+  }
+}
+
