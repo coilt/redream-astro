@@ -48,7 +48,7 @@ const videos = [
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           {
             videos.map((video) => (
-              <div class="rounded-xl overflow-hidden">
+              <div class="rounded-xl overflow-hidden" style="cursor: pointer;">
                 <div
                   class="plyr__video-embed thumbnail-container"
                   id={`player-${video.id}`}
@@ -285,6 +285,7 @@ const videos = [
     position: relative;
     border-radius: 10px;
     overflow: hidden;
+    cursor: pointer;
   }
 
   .thumbnail-overlay {
@@ -293,8 +294,10 @@ const videos = [
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1;
+    z-index: 10;
     transition: opacity 300ms;
+    pointer-events: none; /* Allow clicks to pass through to the player */
+    
   }
 
   .poster-image,
