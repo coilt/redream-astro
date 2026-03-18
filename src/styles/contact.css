@@ -1,12 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Khula:wght@300;400;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
-
 *:focus {
   outline: none;
 }
-
-
-
 
 .invalid-feedback,
 .empty-feedback {
@@ -25,7 +19,6 @@
 .was-validated :invalid {
   border-color: #dc3545;
 }
-
 
 #result {
   position: absolute;
