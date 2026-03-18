@@ -22,7 +22,7 @@ a {
   flex-direction: column;
   list-style-type: none;
   position: fixed;
-  top: 40%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 80%;
@@ -30,6 +30,7 @@ a {
   padding: 0rem;
   box-sizing: border-box;
   z-index: 100;
+  /* border: 1px solid red; */
 }
 
 .menu-list.active {
@@ -76,12 +77,13 @@ a {
   font-weight: 800;
   pointer-events: auto;
   z-index: 2;
-   
 }
 
 .hover-item {
   display: block;
-  --hover-y: calc(-5vh - 1rem); /* mirrors translateZ — keeps alignment across screen sizes */
+  --hover-y: calc(
+    -5vh - 1rem
+  ); /* mirrors translateZ — keeps alignment across screen sizes */
   transform: translateY(var(--hover-y)) rotateX(-90deg)
     translateZ(calc(5vh + 1rem));
   transform-origin: bottom center;
@@ -122,3 +124,9 @@ a {
     transform: rotateX(-90deg) translateZ(calc(5vh + 2rem));
   }
 } */
+
+@media (max-width: 1100px) {
+  .menu-list {
+    top: 55%;
+  }
+}
