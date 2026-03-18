@@ -67,19 +67,19 @@ const videos = [
                       src={video.poster}
                       alt="Video Thumbnail"
                     />
-                    <video class="hover-preview" muted loop preload="auto">
+                    <video class="hover-preview" muted loop preload="none">
                       <source src={video.thumb} type="video/webm" />
                     </video>
                   </div>
                   {video.type === "youtube" ? (
                     <iframe
-                      src={`https://www.youtube.com/embed/${video.id}?origin=*&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1`}
+                      data-src={`https://www.youtube.com/embed/${video.id}?origin=*&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1`}
                       allowfullscreen
                       allow="autoplay; fullscreen"
                     />
                   ) : (
                     <iframe
-                      src={`https://player.vimeo.com/video/${video.id}?loop=false&byline=false&portrait=false&title=false&speed=true&transparent=0&gesture=media`}
+                      data-src={`https://player.vimeo.com/video/${video.id}?loop=false&byline=false&portrait=false&title=false&speed=true&transparent=0&gesture=media`}
                       allow="autoplay; fullscreen"
                       allowtransparency
                     />
@@ -121,7 +121,7 @@ const videos = [
   // Load Plyr script asynchronously without blocking
   const plyrScript = document.createElement("script");
   plyrScript.src = "/scripts/plyr.js";
-  plyrScript.async = true; // Make it non-blocking
+  plyrScript.async = true;
   document.head.appendChild(plyrScript);
   const isMobile = "ontouchstart" in window;
 
@@ -132,6 +132,12 @@ const videos = [
       loadingOverlay.style.display = 'none';
     }
     if (typeof document !== "undefined") {
+      // Activate deferred iframes just before Plyr reads them
+      document.querySelectorAll("iframe[data-src]").forEach((iframe) => {
+        (iframe as HTMLIFrameElement).src = iframe.getAttribute("data-src")!;
+        iframe.removeAttribute("data-src");
+      });
+
       document.querySelectorAll(".thumbnail-container").forEach((container) => {
         const img = container.querySelector(
           ".poster-image",
@@ -156,7 +162,6 @@ const videos = [
             "title",
           ],
         });
-
         let isPlaying = false;
 
         player.on("ready", () => {
