@@ -1,135 +1,120 @@
 ---
-import '@styles/menu-fonts.css' // Load critical menu fonts with block display first
-import '@styles/menu.css'
-import '@styles/nav.button.css'
+import "@styles/menu-fonts.css"; // Load critical menu fonts with block display first
+import "@styles/menu.css";
+import "@styles/nav.button.css";
 ---
 
-<nav >
-
+<nav>
   <div class="header-wrapper backdrop-blur-xl">
+    <div class="logo">
+      <a href="/">
+        <img src="/images/logo.png" />
+      </a>
+    </div>
 
-  <div class="logo"> <a href="/">
-    <img src="/images/logo.png" /> </a>
-
+    <div id="nav-button">
+      <span></span>
+      <span></span>
+    </div>
   </div>
-
-  <div id="nav-button">
-    <span></span>
-    <span></span>
-  </div>
-
-  </div>
-
- 
 
   <div class="menu-overlay"></div>
   <div class="menu-items-container">
     <ul class="menu-list">
       <li>
-        <div class="menu-item-mask">
-          <div class="menu-item-wrapper">
-            <a href="/" class="original-item">Home</a>
-            <a href="/" class="hover-item">Home</a>
-          </div>
+        <div class="menu-item-wrapper">
+          <a href="/" class="original-item">Home</a>
+          <a href="/" class="hover-item">Home</a>
         </div>
       </li>
       <li>
-        <div class="menu-item-mask">
-          <div class="menu-item-wrapper">
-            <a href="/films" class="original-item">Films</a>
-            <a href="/films" class="hover-item">Films</a>
-          </div>
+        <div class="menu-item-wrapper">
+          <a href="/films" class="original-item">Films</a>
+          <a href="/films" class="hover-item">Films</a>
         </div>
       </li>
       <li>
-        <div class="menu-item-mask">
-          <div class="menu-item-wrapper">
-            <a href="/about" class="original-item">About</a>
-            <a href="/about" class="hover-item">About</a>
-          </div>
+        <div class="menu-item-wrapper">
+          <a href="/about" class="original-item">About</a>
+          <a href="/about" class="hover-item">About</a>
         </div>
       </li>
       <li>
-        <div class="menu-item-mask">
-          <div class="menu-item-wrapper">
-            <a href="/contact" class="original-item">Contact</a>
-            <a href="/contact" class="hover-item">Contact</a>
-          </div>
+        <div class="menu-item-wrapper">
+          <a href="/contact" class="original-item">Contact</a>
+          <a href="/contact" class="hover-item">Contact</a>
         </div>
       </li>
- 
     </ul>
-  </div> 
+  </div>
 </nav>
 
 <script>
-  import { gsap } from 'gsap'
+  import { gsap } from "gsap";
 
-  const menuItems = document.querySelectorAll('.menu-item-wrapper');
+  const menuItems = document.querySelectorAll(".menu-item-wrapper");
 
-  menuItems.forEach(item => {
-  const originalItem = item.querySelector('.original-item');
-  const hoverItem = item.querySelector('.hover-item');
-  
-  item.addEventListener('mouseenter', () => {
-    gsap.to(originalItem, { opacity: 0.2, duration: 0.2 });
-    gsap.to(hoverItem, { opacity: 1, duration: 0.2 });
+  menuItems.forEach((item) => {
+    const originalItem = item.querySelector(".original-item");
+    const hoverItem = item.querySelector(".hover-item");
+
+    item.addEventListener("mouseenter", () => {
+      gsap.to(originalItem, { opacity: 0.2, duration: 0.2 });
+      gsap.to(hoverItem, { opacity: 1, duration: 0.2 });
+    });
+
+    item.addEventListener("mouseleave", () => {
+      gsap.to(hoverItem, { opacity: 0.2, duration: 0.2 });
+      gsap.to(originalItem, { opacity: 1, duration: 0.2 });
+    });
   });
 
-  item.addEventListener('mouseleave', () => {
-    gsap.to(hoverItem, { opacity: 0.2, duration: 0.2 });
-    gsap.to(originalItem, { opacity: 1, duration: 0.2 });
-  });
-});
+  // Initialize menu button immediately - don't wait for DOMContentLoaded
+  function initMenuButton() {
+    const navButton = document.getElementById("nav-button");
+    const menuList = document.querySelector(".menu-list");
+    const menuItems = document.querySelectorAll(".menu-list li a");
+    const menuOverlay = document.querySelector(".menu-overlay");
 
- 
-// Initialize menu button immediately - don't wait for DOMContentLoaded
-function initMenuButton() {
-  const navButton = document.getElementById('nav-button');
-  const menuList = document.querySelector('.menu-list');
-  const menuItems = document.querySelectorAll('.menu-list li a');
-  const menuOverlay = document.querySelector('.menu-overlay');
+    if (!navButton || !menuList || !menuOverlay) {
+      // Elements not ready yet, try again shortly
+      setTimeout(initMenuButton, 50);
+      return;
+    }
 
-  if (!navButton || !menuList || !menuOverlay) {
-    // Elements not ready yet, try again shortly
-    setTimeout(initMenuButton, 50);
-    return;
+    let tl = gsap.timeline({ paused: true });
+
+    tl.to(menuItems, {
+      y: "0%",
+      opacity: 1,
+      duration: 0.2,
+      stagger: {
+        amount: 0.5,
+        from: "start",
+        ease: "power4.in",
+      },
+      ease: "back.out(1.2)",
+    });
+
+    navButton.addEventListener("click", () => {
+      navButton.classList.toggle("open");
+      menuList.classList.toggle("active");
+      menuOverlay.classList.toggle("active");
+
+      if (menuList.classList.contains("active")) {
+        gsap.set(menuItems, { y: "100%", opacity: 0 });
+        tl.restart();
+      } else {
+        tl.reverse();
+      }
+    });
   }
 
-  let tl = gsap.timeline({ paused: true });
-
-  tl.to(menuItems, {
-    y: '0%',
-    opacity: 1,
-    duration: 0.2,
-    stagger: {
-      amount: 0.5,
-      from: "start",
-      ease: "power4.in"
-    },
-    ease: 'back.out(1.2)',
-  });
-
-  navButton.addEventListener('click', () => {
-    navButton.classList.toggle('open');
-    menuList.classList.toggle('active');
-    menuOverlay.classList.toggle('active');
-
-    if (menuList.classList.contains('active')) {
-      gsap.set(menuItems, { y: '100%', opacity: 0 });
-      tl.restart();
-    } else {
-      tl.reverse();
-    }
-  });
-}
-
-// Start initialization immediately
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initMenuButton);
-} else {
-  // DOM already loaded
-  initMenuButton();
-}
-
+  // Start initialization immediately
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMenuButton);
+  } else {
+    // DOM already loaded
+    initMenuButton();
+  }
 </script>
