@@ -28,7 +28,7 @@ export default defineConfig({
         "Content-Security-Policy":
           "frame-src 'self' https://player.vimeo.com https://*.vimeo.com https://www.youtube.com https://*.youtube.com;",
       },
-      allowedHosts: true,
+      allowedHosts: ["redream.cc"],
     },
   },
 });
