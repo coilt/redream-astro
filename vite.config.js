@@ -1,3 +1,5 @@
-preview: {
-allowedHosts: ["redream.cc"]
+export default {
+	preview: {
+		allowedHosts: ["redream.cc"]
+	}
 }
