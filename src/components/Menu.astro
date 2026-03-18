@@ -1,4 +1,5 @@
 ---
+import '@styles/menu-fonts.css' // Load critical menu fonts with block display first
 import '@styles/menu.css'
 import '@styles/nav.button.css'
 ---
@@ -82,14 +83,16 @@ import '@styles/nav.button.css'
 });
 
  
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize menu button immediately - don't wait for DOMContentLoaded
+function initMenuButton() {
   const navButton = document.getElementById('nav-button');
   const menuList = document.querySelector('.menu-list');
   const menuItems = document.querySelectorAll('.menu-list li a');
   const menuOverlay = document.querySelector('.menu-overlay');
 
   if (!navButton || !menuList || !menuOverlay) {
-    console.error('One or more required elements not found');
+    // Elements not ready yet, try again shortly
+    setTimeout(initMenuButton, 50);
     return;
   }
 
@@ -119,6 +122,14 @@ document.addEventListener('DOMContentLoaded', () => {
       tl.reverse();
     }
   });
-});
+}
+
+// Start initialization immediately
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initMenuButton);
+} else {
+  // DOM already loaded
+  initMenuButton();
+}
 
 </script>
