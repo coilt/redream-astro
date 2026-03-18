@@ -17,20 +17,6 @@ a {
   text-decoration: none;
 }
 
-a.original-item {
-  color: #81001b;
-  font-family: "Kanit";
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
-a.hover-item {
-  color: #81001b;
-  font-family: "Kanit";
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
 .menu-list {
   display: none;
   flex-direction: column;
@@ -54,14 +40,18 @@ a.hover-item {
   margin-bottom: 2rem;
 }
 
-.menu-list li a {
+.menu-item-link {
+  position: relative;
+  top: -10px; /* adjust this — not affected by GSAP */
   display: block;
   font-size: clamp(3rem, 5vw, 4rem);
+
+  text-transform: uppercase;
 }
 
 .menu-item-wrapper {
   position: relative;
-  transform: rotateX(0deg);
+
   transform-origin: center bottom;
   transform-style: preserve-3d;
   transition: transform 0.3s ease-in-out;
@@ -69,30 +59,36 @@ a.hover-item {
   padding: 0;
 }
 
-.menu-item-wrapper:hover {
-  transform: rotateX(90deg) translateY(0px);
+.menu-item-wrapper:hover,
+.menu-item-link:hover .menu-item-wrapper {
+  transform: rotateX(90deg);
 }
 
 .original-item {
+  display: block;
   color: #81001b;
   transform: rotateX(0deg) translateZ(calc(5vh + 1rem));
-  transform-origin: bottom top;
-  transition: opacity 0.2s ease-in-out;
+  transform-origin: bottom center;
   backface-visibility: hidden;
   position: absolute;
-  top: 10px; /* adjust the distance btw hover and original item */
+  top: 10px;
   left: 0;
   font-weight: 800;
-  pointer-events: auto; /* Ensure this is tappable */
-  z-index: 2; /* Above hover-item */
+  pointer-events: auto;
+  z-index: 2;
+   
 }
 
 .hover-item {
-  transform: rotateX(-90deg) translateZ(calc(5vh + 1rem));
+  display: block;
+  --hover-y: calc(-5vh - 1rem); /* mirrors translateZ — keeps alignment across screen sizes */
+  transform: translateY(var(--hover-y)) rotateX(-90deg)
+    translateZ(calc(5vh + 1rem));
   transform-origin: bottom center;
   font-weight: 200;
   padding: 0;
-  pointer-events: none; /* Critical: Allow touches to pass through to original-item */
+  pointer-events: none;
+  letter-spacing: 0.05em;
 }
 
 .menu-overlay {
