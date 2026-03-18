@@ -83,6 +83,8 @@ a.hover-item {
   top: 10px; /* adjust the distance btw hover and original item */
   left: 0;
   font-weight: 800;
+  pointer-events: auto; /* Ensure this is tappable */
+  z-index: 2; /* Above hover-item */
 }
 
 .hover-item {
@@ -90,6 +92,7 @@ a.hover-item {
   transform-origin: bottom center;
   font-weight: 200;
   padding: 0;
+  pointer-events: none; /* Critical: Allow touches to pass through to original-item */
 }
 
 .menu-overlay {
