@@ -1,13 +1,25 @@
 services:
-  web:
+  astro-build:
     build: .
-    container_name: redream-astro
-    restart: unless-stopped
+    container_name: astro-build
+    volumes:
+      - ./dist:/app/dist
+    command: ["pnpm", "run", "build"]
     networks:
       - redream_net
       - caddy_net
-    expose:
-      - "4321"
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./dist:/srv:ro
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    networks:
+      - caddy_net
 
 networks:
   redream_net:
