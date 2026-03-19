@@ -57,26 +57,16 @@ import "@styles/nav.button.css";
 </nav>
 
 <script>
-  function initMenuButton() {
+  document.addEventListener("DOMContentLoaded", () => {
     const navButton = document.getElementById("nav-button");
     const menuList = document.querySelector(".menu-list");
     const menuOverlay = document.querySelector(".menu-overlay");
-
-    if (!navButton || !menuList || !menuOverlay) {
-      setTimeout(initMenuButton, 50);
-      return;
+    if (navButton && menuList && menuOverlay) {
+      navButton.addEventListener("click", () => {
+        navButton.classList.toggle("open");
+        menuList.classList.toggle("active");
+        menuOverlay.classList.toggle("active");
+      });
     }
-
-    navButton.addEventListener("click", () => {
-      navButton.classList.toggle("open");
-      menuList.classList.toggle("active");
-      menuOverlay.classList.toggle("active");
-    });
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initMenuButton);
-  } else {
-    initMenuButton();
-  }
+  });
 </script>

@@ -6,6 +6,12 @@ import lenis from "astro-lenis";
 export default defineConfig({
   integrations: [tailwind(), lenis(), tunnel()],
   vite: {
+    server: {
+      allowedHosts: true,
+    },
+    preview: {
+      allowedHosts: true,
+    },
     build: {
       rollupOptions: {
         external: ["plyr"],
@@ -28,7 +34,7 @@ export default defineConfig({
         "Content-Security-Policy":
           "frame-src 'self' https://player.vimeo.com https://*.vimeo.com https://www.youtube.com https://*.youtube.com;",
       },
-      allowedHosts: true,
+      allowedHosts: ["redream.cc"],
     },
   },
 });
