@@ -13,7 +13,7 @@
 
 a {
   color: #81001b;
-  font-family: "Kanit";
+  font-family: "Manrope";
   text-decoration: none;
 }
 
@@ -66,6 +66,8 @@ a {
 }
 
 .original-item {
+  font-family: "Aspekta";
+  font-weight: 1000;
   display: block;
   color: #81001b;
   transform: rotateX(0deg) translateZ(calc(5vh + 1rem));
@@ -74,7 +76,6 @@ a {
   position: absolute;
   top: 10px;
   left: 0;
-  font-weight: 800;
   pointer-events: auto;
   z-index: 2;
 }
@@ -87,10 +88,10 @@ a {
   transform: translateY(var(--hover-y)) rotateX(-90deg)
     translateZ(calc(5vh + 1rem));
   transform-origin: bottom center;
-  font-weight: 200;
+  font-weight: 100;
   padding: 0;
   pointer-events: none;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
 }
 
 .menu-overlay {
