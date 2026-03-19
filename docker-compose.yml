@@ -9,18 +9,6 @@ services:
       - redream_net
       - caddy_net
 
-  caddy:
-    image: caddy:2-alpine
-    container_name: caddy
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./dist:/srv:ro
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-    networks:
-      - caddy_net
-
 networks:
   redream_net:
     name: redream_net
