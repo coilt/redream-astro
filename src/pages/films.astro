@@ -150,7 +150,9 @@ const videos = [
         ) as HTMLDivElement;
         let hasPlayedOnce = false;
 
-        const player = new window.Plyr(`#${container.id}`, {
+        // Type declaration for Plyr
+        // @ts-ignore
+        const player = new (window as any).Plyr(`#${container.id}`, {
           hideControls: true,
           controls: [
             "play",

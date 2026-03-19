@@ -6,6 +6,12 @@ import lenis from "astro-lenis";
 export default defineConfig({
   integrations: [tailwind(), lenis(), tunnel()],
   vite: {
+    server: {
+      allowedHosts: true,
+    },
+    preview: {
+      allowedHosts: true,
+    },
     build: {
       rollupOptions: {
         external: ["plyr"],
